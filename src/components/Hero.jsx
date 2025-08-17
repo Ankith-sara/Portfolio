@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ContactDrawer from './ContactDrawer';
 import Resume from '../assets/Resume.pdf';
-import AKS from '../assets/images/AKS.png'
+import AKS from '../assets/images/AKS.png';
+import navChange from '../assets/sounds/navChange.wav';
+import clickSound from '../assets/sounds/mouseClick.wav';
 
 const Hero = () => {
+    const soundRef = useRef(new Audio(navChange));
+
+    const playSound = () => {
+        soundRef.current.currentTime = 0;
+        soundRef.current.play();
+    };
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     const skills = {
@@ -14,14 +22,25 @@ const Hero = () => {
         tools: ['Git', 'Docker', 'AWS', 'Vercel', 'Firebase'],
     };
 
+    useEffect(() => {
+        const audio = new Audio(clickSound);
+
+        const enableSound = () => {
+            audio.play().catch(err => console.log("Autoplay blocked:", err));
+            document.removeEventListener("click", enableSound); // remove after first click
+        };
+
+        document.addEventListener("click", enableSound);
+        return () => document.removeEventListener("click", enableSound);
+    }, []);
+
     return (
         <div className="relative overflow-hidden text-white">
-            {/* Floating Background Particles */}
             <div className="absolute inset-0 z-0">
                 {[...Array(50)].map((_, i) => (
                     <div
                         key={i}
-                        className="absolute w-1 h-1 bg-blue-400/20 rounded-full"
+                        className="absolute w-1 h-1 bg-blue-600/30 rounded-full"
                         style={{
                             top: `${Math.random() * 100}%`,
                             left: `${Math.random() * 100}%`,
@@ -44,7 +63,7 @@ const Hero = () => {
                 </h1>
 
                 {/* Profile intro */}
-                <div className="flex flex-col sm:flex-row items-center space-y-6 sm:space-y-0 sm:space-x-6 mb-12">
+                <div className="flex flex-row gap-6 md:gap-1 items-center space-y-5 sm:space-y-0 sm:space-x-6 mb-12">
                     {/* Animated Avatar */}
                     <motion.div
                         className="relative group"
@@ -52,6 +71,7 @@ const Hero = () => {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ type: 'spring', stiffness: 300 }}
                         whileHover={{ scale: 1.1 }}
+                        onMouseEnter={playSound}
                     >
                         <motion.div
                             className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 p-1 shadow-2xl"
@@ -65,7 +85,7 @@ const Hero = () => {
                             transition={{ duration: 2, repeat: Infinity }}
                         >
                             <div className="w-full h-full rounded-full bg-black flex items-center justify-center border border-blue-500/20">
-                                <span className="text-2xl font-bold text-white">AKS</span>
+                                <span className="text-xl md:text-2xl font-bold text-white">AKS</span>
                             </div>
                         </motion.div>
 
@@ -80,7 +100,7 @@ const Hero = () => {
 
                     {/* Intro Text */}
                     <div className="text-center sm:text-left">
-                        <p className="text-white text-xl font-semibold">Hello! I'm Ankith Kumar Sara</p>
+                        <p className="text-white text-xl font-semibold">Hello! I'm Ankith Sara</p>
                         <p className="text-blue-300 text-lg">Full Stack Engineer</p>
                     </div>
                 </div>
@@ -88,7 +108,10 @@ const Hero = () => {
                 {/* Buttons */}
                 <div className="flex flex-col sm:flex-row items-center gap-4">
                     <button
-                        onClick={() => setIsDrawerOpen(true)}
+                        onClick={() => {
+                            playSound();
+                            setIsDrawerOpen(true);
+                        }}
                         className="group relative inline-flex items-center justify-between overflow-hidden rounded-full border border-slate-700/50 bg-slate-800/20 px-5 py-3 font-medium opacity-90 backdrop-blur-sm transition-all hover:bg-transparent"
                     >
                         <span className="z-10 pr-3 text-slate-100 transition-colors duration-300 group-hover:text-slate-900">
@@ -104,6 +127,7 @@ const Hero = () => {
                         href={Resume}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={playSound}
                         className="group flex items-center space-x-2 rounded-full border border-slate-700/30 bg-slate-800/10 px-5 py-3 font-semibold text-slate-300 transition-all hover:border-blue-500/50 hover:bg-slate-800/20 hover:text-white"
                     >
                         <span>View Resume</span>
@@ -113,7 +137,7 @@ const Hero = () => {
             </div>
 
             {/* Curved Gradient Divider */}
-            <div className="relative h-40 sm:h-56 lg:h-72 w-full z-10">
+            <div className="relative h-40 sm:h-48 lg:h-56 w-full">
                 <div
                     className="absolute bottom-0 left-1/2 z-0 h-[400px] w-[1200px] -translate-x-1/2 transform overflow-hidden"
                     style={{
@@ -127,7 +151,7 @@ const Hero = () => {
                         style={{ animation: 'glow-shift 8s ease-in-out infinite alternate' }}
                     />
                     <div
-                        className="absolute right-[-510px] bottom-[-689px] left-[-532px] h-[956px] rounded-[100%] bg-black"
+                        className="absolute right-[-510px] bottom-[-679px] left-[-532px] h-[956px] rounded-[100%] bg-black"
                         style={{ animation: 'semicircle-glow 10s ease-in-out infinite alternate' }}
                     />
                 </div>
@@ -232,7 +256,7 @@ const Hero = () => {
             {/* Contact Drawer */}
             <ContactDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
 
-            <style jsx>{`
+            <style>{`
                 @keyframes orbit {
                      0% {
                         transform: translate(0, 0) scale(1);

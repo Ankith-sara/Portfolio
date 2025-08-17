@@ -168,10 +168,10 @@ function Projects() {
 
                 <div className="relative mx-auto lg:flex lg:items-center w-full">
                     <div ref={containerRef} className="lg:w-[65%] lg:max-h-[91vh] lg:overflow-y-auto lg:scroll-smooth lg:pr-8" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                        <style jsx>{` div::-webkit-scrollbar { display: none; } `}</style>
+                        <style>{` div::-webkit-scrollbar { display: none; } `}</style>
 
                         {projects.map((project, index) => (
-                            <div key={project.id} ref={(el) => (projectRefs.current[index] = el)} className="mb-16 lg:mb-20">
+                            <div key={project.id || index} ref={(el) => (projectRefs.current[index] = el)} className="mb-16 lg:mb-20">
                                 <div className="relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-slate-800/20 p-1.5 shadow-2xl lg:h-[560px] lg:rounded-3xl lg:p-2">
                                     <div className="group relative flex size-full flex-col items-center justify-between overflow-hidden rounded-xl lg:rounded-2xl transition-all duration-300">
                                         <div className="absolute inset-0 -z-10" style={{ background: project.gradient }} />
@@ -233,8 +233,8 @@ function Projects() {
                                         <div className="flex items-center gap-2 text-white/70"><Calendar className="w-4 h-4" /><span className="text-sm">{currentProject.year}</span></div>
                                     </div>
                                     <div className="flex gap-4 mt-8">
-                                        <a href={currentProject.demoUrl} className="group flex items-center gap-2 px-4 py-2 bg-white text-black rounded-full font-medium transition-all duration-300 hover:bg-white/90 hover:scale-105"><ExternalLink className="w-4 h-4" />Live Demo</a>
-                                        <a href={currentProject.githubUrl} className="group flex items-center gap-2 px-4 py-2 border border-white/20 text-white rounded-full font-medium transition-all duration-300 hover:bg-white/10"><Github className="w-4 h-4" />Source</a>
+                                        <a href={currentProject.demoUrl} className="group flex items-center gap-2 px-4 py-2 bg-white text-black rounded-full text-md md:text-lg font-medium transition-all duration-300 hover:bg-white/90 hover:scale-105"><ExternalLink className="w-4 h-4" />Live Demo</a>
+                                        <a href={currentProject.githubUrl} className="group flex items-center gap-2 px-4 py-2 border border-white/20 text-white rounded-full text-md md:text-lg font-medium transition-all duration-300 hover:bg-white/10"><Github className="w-4 h-4" />Source</a>
                                     </div>
                                 </div>
                             </div>
