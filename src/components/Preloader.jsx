@@ -1,15 +1,23 @@
-import React from 'react'
+import React from 'react';
+import { motion } from 'framer-motion';
 
-function Preloader() {
+const Preloader = () => {
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800">
-            <div className="relative">
-                <div className="w-16 h-16 border-4 border-transparent border-t-blue-400 border-r-blue-400 rounded-full animate-spin"></div>
-                <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-b-purple-400 border-l-purple-400 rounded-full animate-spin animate-reverse"></div>
-            </div>
-            <div className="ml-4 text-white text-xl font-light">Loading...</div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-light-bg dark:bg-dark-bg">
+            <motion.div
+                animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.5, 1, 0.5],
+                }}
+                transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                }}
+                className="w-16 h-16 rounded-full bg-gradient-to-br from-accent-blue to-accent-purple"
+            />
         </div>
     );
-}
+};
 
-export default Preloader
+export default Preloader;
