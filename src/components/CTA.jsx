@@ -1,155 +1,96 @@
 import React, { useState, useRef } from 'react';
-import { ArrowRight, Star } from 'lucide-react';
+import { ArrowRight, Rocket } from 'lucide-react';
+import ContactDrawer from './ContactDrawer';
 
 function CTA() {
     const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const buttonRef = useRef(null);
 
     const handleMouseMove = (e) => {
         const rect = buttonRef.current.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width - 0.5) * 30;
-        const y = ((e.clientY - rect.top) / rect.height - 0.5) * 30;
+        const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
+        const y = ((e.clientY - rect.top) / rect.height - 0.5) * 20;
         setPosition({ x, y });
     };
 
-    const resetPosition = () => {
-        setPosition({ x: 0, y: 0 });
-    };
-
     return (
-        <div className="min-h-screen relative overflow-hidden text-slate-100">
-            {/* Layered Background Glow */}
-            <div className="absolute inset-0">
-                <div className="absolute w-[120%] h-[120%] animate-pulse-slow"></div>
-                <div className="absolute inset-0 pointer-events-none">
-                    {[...Array(30)].map((_, i) => (
-                        <div
-                            key={i}
-                            className="absolute w-1 h-1 bg-blue-400/40 rounded-full"
-                            style={{
-                                top: `${Math.random() * 100}%`,
-                                left: `${Math.random() * 100}%`,
-                                animation: `float ${10 + Math.random() * 10}s linear infinite`,
-                                animationDelay: `${Math.random() * 5}s`
-                            }}
-                        />
-                    ))}
-                </div>
+        <div className="relative overflow-hidden py-28 px-4">
+            {/* Horizontal separator */}
+            <div className="absolute top-0 inset-x-0 h-px" style={{ background: 'linear-gradient(to right, transparent, rgba(0,212,255,0.15) 30%, rgba(26,108,240,0.2) 50%, rgba(0,212,255,0.15) 70%, transparent)' }} />
+
+            {/* Deep nebula glow for CTA */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div style={{ width: 600, height: 300, borderRadius: '50%', background: 'radial-gradient(ellipse, rgba(26,108,240,0.08) 0%, transparent 70%)', filter: 'blur(40px)' }} />
             </div>
 
-            {/* Neon Badge */}
-            <div className="absolute top-1/3 right-1/6 animate-flicker">
-                <div className="relative">
-                    <div className="w-28 h-28 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full p-1 shadow-lg shadow-blue-500/50">
-                        <div className="w-full h-full rounded-full bg-slate-900/90 backdrop-blur-md flex items-center justify-center border border-blue-400/50">
-                            <Star className="w-6 h-6 text-blue-300 fill-blue-300" />
-                        </div>
+            {/* Spinning orbit badge */}
+            <div className="absolute top-12 right-8 md:right-24 hidden md:block">
+                <div className="relative w-28 h-28">
+                    <div className="w-full h-full rounded-full flex items-center justify-center"
+                        style={{ background: 'rgba(6,6,18,0.9)', border: '1px solid rgba(0,212,255,0.15)', boxShadow: '0 0 20px rgba(26,108,240,0.1)' }}>
+                        <Rocket className="w-6 h-6" style={{ color: 'rgba(0,212,255,0.8)' }} />
                     </div>
-                    <svg className="absolute inset-0 w-28 h-28 animate-spin-slow" viewBox="0 0 100 100">
-                        <path
-                            id="circle"
-                            d="M 50,50 m -35,0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0"
-                            fill="none"
-                        />
-                        <text className="text-xs fill-blue-200 font-light tracking-widest">
-                            <textPath href="#circle">
-                                OPEN TO WORK • LET'S BUILD MAGIC •
-                            </textPath>
+                    <svg className="absolute inset-0 w-28 h-28 orbit" viewBox="0 0 100 100">
+                        <path id="ctaCircle" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0" fill="none" />
+                        <text fill="rgba(0,212,255,0.5)" fontSize="8" fontFamily="DM Mono, monospace" letterSpacing="3">
+                            <textPath href="#ctaCircle">LET'S BUILD • LET'S BUILD •</textPath>
                         </text>
                     </svg>
                 </div>
             </div>
 
-            {/* Main Content */}
-            <div className="relative z-10 flex flex-col items-center justify-center min-h-screen text-center px-6">
-                <h1 className="text-5xl md:text-7xl font-bold mb-4 animate-fade-in">
+            <div className="relative z-10 flex flex-col items-center justify-center text-center">
+                <p className="font-mono text-xs tracking-widest mb-5" style={{ color: 'rgba(0,212,255,0.5)' }}>[ READY TO COLLABORATE ]</p>
+                <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-4 leading-tight">
                     FROM CONCEPT TO{' '}
-                    <span className="bg-blue-500 bg-clip-text text-transparent">
-                        CREATION
-                    </span>
-                </h1>
-                <h2 className="text-4xl md:text-6xl font-bold mb-12 animate-fade-in delay-200">
-                    LET'S MAKE IT{' '}
-                    <span className="bg-gradient-to-r from-blue-400 to-blue-500 bg-clip-text text-transparent">
-                        HAPPEN!
-                    </span>
+                    <span className="grad-text">CREATION</span>
                 </h2>
+                <h3 className="text-3xl md:text-5xl font-display font-bold text-white mb-10">
+                    LET'S MAKE IT{' '}
+                    <span style={{ color: 'rgba(0,212,255,0.9)' }}>HAPPEN.</span>
+                </h3>
 
-                {/* Magnetic Button */}
-                <div className="mb-16">
+                {/* Magnetic button */}
+                <div className="mb-12">
                     <button
                         ref={buttonRef}
                         onMouseMove={handleMouseMove}
-                        onMouseLeave={resetPosition}
-                        className="group relative rounded-2xl p-2 border border-blue-400/40 bg-slate-900/30 backdrop-blur-lg transition-all duration-300"
+                        onMouseLeave={() => setPosition({ x: 0, y: 0 })}
+                        onClick={() => setIsDrawerOpen(true)}
+                        className="group relative rounded-2xl p-[1px] transition-all duration-300"
                         style={{
                             transform: `translate(${position.x}px, ${position.y}px)`,
-                            transition: 'transform 0.15s ease-out',
+                            background: 'linear-gradient(135deg, rgba(0,212,255,0.5), rgba(26,108,240,0.8))',
+                            boxShadow: '0 0 30px rgba(26,108,240,0.3)',
+                            transition: 'transform 0.15s ease-out, box-shadow 0.3s',
                         }}
+                        onMouseEnter={e => e.currentTarget.style.boxShadow = '0 0 50px rgba(26,108,240,0.5)'}
                     >
-                        <div className="flex items-center gap-4 px-8 py-4 relative z-10">
-                            <span className="text-xl font-semibold transition-colors duration-300">
-                                Get In Touch
-                            </span>
-                            <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
+                        <div className="relative rounded-2xl px-10 py-4 flex items-center gap-4 font-mono text-lg font-medium text-white"
+                            style={{ background: 'rgba(0,0,0,0.8)' }}>
+                            Get In Touch
+                            <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
                         </div>
-                        <span className="absolute inset-0 rounded-2xl bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </button>
                 </div>
 
-                {/* Availability Card */}
-                <div className="bg-slate-900/50 backdrop-blur-md border border-blue-400/30 rounded-2xl p-6 shadow-lg max-w-lg">
+                {/* Availability card */}
+                <div className="space-card rounded-2xl p-5 max-w-md w-full">
                     <div className="flex items-center gap-4">
-                        <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                        <p className="text-lg">
-                            I'm available for <span className="text-green-400 font-semibold">full-time roles</span> & freelance projects.  
-                            I love crafting <span className="text-blue-400 font-semibold">dynamic web apps</span> with{' '}
-                            <span className="text-purple-400 font-semibold">seamless UX</span>.
+                        <div className="relative flex-shrink-0">
+                            <div className="w-3 h-3 bg-green-400 rounded-full" />
+                            <div className="absolute inset-0 w-3 h-3 bg-green-400 rounded-full animate-ping opacity-50" />
+                        </div>
+                        <p className="font-mono text-sm text-slate-300 leading-relaxed">
+                            Available for <span className="text-green-400">full-time roles</span> & freelance projects.
+                            Open to building <span style={{ color: 'rgba(0,212,255,0.8)' }}>AI-powered products</span> and <span className="text-purple-400">scalable apps</span>.
                         </p>
                     </div>
                 </div>
             </div>
 
-            {/* Custom Styles */}
-            <style>{`
-                @keyframes float {
-                    0% { transform: translateY(100vh); opacity: 0; }
-                    10%, 90% { opacity: 1; }
-                    100% { transform: translateY(-100vh); opacity: 0; }
-                }
-                @keyframes pulse-slow {
-                    0%, 100% { opacity: 0.4; }
-                    50% { opacity: 0.7; }
-                }
-                @keyframes spin-slow {
-                    from { transform: rotate(0deg); }
-                    to { transform: rotate(360deg); }
-                }
-                @keyframes flicker {
-                    0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
-                    20%, 24%, 55% { opacity: 0.4; }
-                }
-                .animate-pulse-slow {
-                    animation: pulse-slow 6s ease-in-out infinite;
-                }
-                .animate-spin-slow {
-                    animation: spin-slow 20s linear infinite;
-                }
-                .animate-fade-in {
-                    animation: fadeIn 0.8s ease forwards;
-                    opacity: 0;
-                }
-                .delay-200 {
-                    animation-delay: 0.2s;
-                }
-                .animate-flicker {
-                    animation: flicker 3s infinite;
-                }
-                @keyframes fadeIn {
-                    to { opacity: 1; transform: translateY(0); }
-                    from { opacity: 0; transform: translateY(20px); }
-                }
-            `}</style>
+            <ContactDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
         </div>
     );
 }

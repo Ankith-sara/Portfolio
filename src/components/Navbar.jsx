@@ -12,43 +12,34 @@ const Navbar = () => {
     const [scrollY, setScrollY] = useState(0);
     const [lastScrollY, setLastScrollY] = useState(0);
     const [showNavbar, setShowNavbar] = useState(true);
-
     const navRef = useRef(null);
     const itemRefs = useRef({});
     const [highlightStyle, setHighlightStyle] = useState({});
-    const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
-            
-            // For mobile: show/hide based on scroll direction
-            if (window.innerWidth < 640) { // sm breakpoint
-                if (currentScrollY < lastScrollY || currentScrollY < 10) {
-                    setShowNavbar(true);
-                } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-                    setShowNavbar(false);
-                }
+            if (window.innerWidth < 640) {
+                if (currentScrollY < lastScrollY || currentScrollY < 10) setShowNavbar(true);
+                else if (currentScrollY > lastScrollY && currentScrollY > 100) setShowNavbar(false);
             }
-            
             setScrollY(currentScrollY);
             setLastScrollY(currentScrollY);
         };
-
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, [lastScrollY]);
 
     const navItems = [
-        { id: "/", label: "Home", path: "/", icon: <Home size={20} /> },
-        { id: "/about", label: "About", path: "/about", icon: <User size={20} /> },
-        { id: "/projects", label: "Projects", path: "/projects", icon: <Code size={20} /> },
-        { id: "contact", label: "Contact", isDrawer: true, icon: <Mail size={20} /> },
+        { id: "/", label: "Home", path: "/", icon: <Home size={18} /> },
+        { id: "/about", label: "About", path: "/about", icon: <User size={18} /> },
+        { id: "/projects", label: "Projects", path: "/projects", icon: <Code size={18} /> },
+        { id: "contact", label: "Contact", isDrawer: true, icon: <Mail size={18} /> },
     ];
 
     const socialLinks = [
-        { id: "linkedin", label: "LinkedIn", path: "https://www.linkedin.com/in/ankith-kumar-sara-958ab026a", icon: <Linkedin size={20} /> },
-        { id: "github", label: "Github", path: "https://github.com/Ankith-sara", icon: <Github size={20} /> },
+        { id: "linkedin", label: "LinkedIn", path: "https://www.linkedin.com/in/ankith-kumar-sara-958ab026a", icon: <Linkedin size={16} /> },
+        { id: "github", label: "Github", path: "https://github.com/Ankith-sara", icon: <Github size={16} /> },
     ];
 
     useEffect(() => {
@@ -57,24 +48,12 @@ const Navbar = () => {
             const activeElement = itemRefs.current[activeItem.id];
             if (activeElement) {
                 const { offsetLeft, offsetTop, clientWidth, clientHeight } = activeElement;
-                setHighlightStyle({
-                    width: `${clientWidth}px`,
-                    height: `${clientHeight}px`,
-                    transform: `translate(${offsetLeft}px, ${offsetTop}px)`,
-                });
+                setHighlightStyle({ width: `${clientWidth}px`, height: `${clientHeight}px`, transform: `translate(${offsetLeft}px, ${offsetTop}px)` });
             }
         };
-
-        const timeoutId = setTimeout(() => {
-            setHighlight();
-            if (isInitialLoad) setIsInitialLoad(false);
-        }, 100);
-
+        const timeoutId = setTimeout(setHighlight, 100);
         window.addEventListener("resize", setHighlight);
-        return () => {
-            clearTimeout(timeoutId);
-            window.removeEventListener("resize", setHighlight);
-        };
+        return () => { clearTimeout(timeoutId); window.removeEventListener("resize", setHighlight); };
     }, [currentPath]);
 
     const handleMouseEnter = (id) => {
@@ -82,11 +61,7 @@ const Navbar = () => {
         if (element) {
             playHover();
             const { offsetLeft, offsetTop, clientWidth, clientHeight } = element;
-            setHighlightStyle({
-                width: `${clientWidth}px`,
-                height: `${clientHeight}px`,
-                transform: `translate(${offsetLeft}px, ${offsetTop}px)`,
-            });
+            setHighlightStyle({ width: `${clientWidth}px`, height: `${clientHeight}px`, transform: `translate(${offsetLeft}px, ${offsetTop}px)` });
         }
     };
 
@@ -95,11 +70,7 @@ const Navbar = () => {
         const activeElement = itemRefs.current[activeItem.id];
         if (activeElement) {
             const { offsetLeft, offsetTop, clientWidth, clientHeight } = activeElement;
-            setHighlightStyle({
-                width: `${clientWidth}px`,
-                height: `${clientHeight}px`,
-                transform: `translate(${offsetLeft}px, ${offsetTop}px)`,
-            });
+            setHighlightStyle({ width: `${clientWidth}px`, height: `${clientHeight}px`, transform: `translate(${offsetLeft}px, ${offsetTop}px)` });
         }
     };
 
@@ -108,83 +79,47 @@ const Navbar = () => {
         const commonProps = {
             ref: (el) => (itemRefs.current[item.id] = el),
             onMouseEnter: () => handleMouseEnter(item.id),
-            className: `relative z-10 flex items-center justify-center w-11 h-11 my-2 mx-1 group transition-all duration-300 hover:scale-105 ${
-                isActive ? "text-blue-400" : "text-neutral-300 hover:text-white"
-            }`,
+            className: `relative z-10 flex items-center justify-center w-10 h-10 my-1.5 mx-0.5 group transition-all duration-300 hover:scale-110 rounded-xl ${isActive ? "text-cyan-300" : "text-slate-400 hover:text-white"}`,
         };
-
         const content = (
             <>
-                <div className={`transition-all duration-300 ${isActive ? 'drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]' : ''}`}>
-                    {item.icon}
-                </div>
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 px-3 py-1.5 bg-black/90 backdrop-blur-sm text-white text-xs font-medium rounded-lg opacity-0 group-hover:opacity-100 transform translate-y-1 group-hover:translate-y-0 transition-all duration-300 pointer-events-none shadow-xl border border-neutral-700/50 whitespace-nowrap">
+                <div className={`transition-all duration-300 ${isActive ? 'drop-shadow-[0_0_8px_rgba(0,212,255,0.7)]' : ''}`}>{item.icon}</div>
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 px-2.5 py-1 bg-black/95 text-white text-xs font-mono rounded-md opacity-0 group-hover:opacity-100 transform translate-y-1 group-hover:translate-y-0 transition-all duration-200 pointer-events-none shadow-xl border border-cyan-900/50 whitespace-nowrap">
                     {item.label}
-                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-black/90 rotate-45 border-l border-t border-neutral-700/50"></div>
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-black/95 rotate-45 border-l border-t border-cyan-900/50"></div>
                 </div>
             </>
         );
-
-        if (item.isDrawer) {
-            return (
-                <button
-                    key={item.id}
-                    {...commonProps}
-                    onClick={() => {
-                        playClick();
-                        setIsDrawerOpen(true);
-                    }}
-                >
-                    {content}
-                </button>
-            );
-        }
-
-        return (
-            <Link
-                key={item.id}
-                {...commonProps}
-                to={item.path}
-                onClick={() => {
-                    playClick();
-                    playTransition();
-                }}
-            >
-                {content}
-            </Link>
-        );
+        if (item.isDrawer) return <button key={item.id} {...commonProps} onClick={() => { playClick(); setIsDrawerOpen(true); }}>{content}</button>;
+        return <Link key={item.id} {...commonProps} to={item.path} onClick={() => { playClick(); playTransition(); }}>{content}</Link>;
     };
 
     return (
         <>
-            {/* Desktop navbar */}
-            <nav className={`fixed w-full top-0 pt-6 z-50 transition-all duration-500 ${scrollY > 50 ? "pt-3" : "pt-6"}`}>
+            {/* Desktop — top center pill */}
+            <nav className={`fixed w-full top-0 z-50 transition-all duration-500 ${scrollY > 50 ? "pt-3" : "pt-5"}`}>
                 <div className="hidden sm:flex justify-center">
                     <div
                         ref={navRef}
                         onMouseLeave={handleMouseLeave}
-                        className="relative flex gap-1 w-fit backdrop-blur-2xl bg-black/20 border border-neutral-600/30 rounded-2xl mx-auto shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 p-1"
+                        className="relative flex gap-0.5 w-fit backdrop-blur-2xl border border-cyan-900/30 rounded-2xl mx-auto p-1 shadow-2xl"
+                        style={{ background: 'rgba(0,0,0,0.85)', boxShadow: '0 0 0 1px rgba(0,212,255,0.06), 0 4px 40px rgba(0,0,0,0.8), 0 0 20px rgba(26,108,240,0.08)' }}
                     >
+                        {/* Sliding highlight */}
+                        <div className="absolute rounded-xl transition-all duration-300 ease-out nav-active" style={{ ...highlightStyle, top: 0, left: 0 }} />
                         {navItems.map(renderNavItem)}
-                        
-                        {/* Enhanced separator */}
-                        <div className="w-px h-8 bg-gradient-to-b from-transparent via-neutral-500/50 to-transparent mx-2 self-center"></div>
-                        
+                        <div className="w-px h-6 bg-gradient-to-b from-transparent via-cyan-900/50 to-transparent mx-1.5 self-center"></div>
                         {socialLinks.map((social) => (
-                            <div className="relative group my-2 mx-1" key={social.id}>
-                                <a
-                                    href={social.path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={playClick}
-                                    onMouseEnter={playHover}
-                                    className="flex items-center justify-center w-11 h-11 rounded-xl text-neutral-300 hover:text-white transition-all duration-300 z-10 relative hover:scale-105 hover:bg-neutral-800/50"
+                            <div className="relative group my-1.5 mx-0.5" key={social.id}>
+                                <a href={social.path} target="_blank" rel="noopener noreferrer" onClick={playClick} onMouseEnter={playHover}
+                                    className="flex items-center justify-center w-10 h-10 rounded-xl text-slate-400 hover:text-white transition-all duration-300 z-10 relative hover:scale-110"
+                                    style={{ '&:hover': { background: 'rgba(0,212,255,0.06)' } }}
                                 >
                                     {social.icon}
                                 </a>
-                                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 px-3 py-1.5 bg-black/90 backdrop-blur-sm text-white text-xs font-medium rounded-lg opacity-0 group-hover:opacity-100 transform translate-y-1 group-hover:translate-y-0 transition-all duration-300 pointer-events-none shadow-xl border border-neutral-700/50 whitespace-nowrap">
+                                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 px-2.5 py-1 bg-black/95 text-white text-xs font-mono rounded-md opacity-0 group-hover:opacity-100 transform translate-y-1 group-hover:translate-y-0 transition-all duration-200 pointer-events-none shadow-xl border border-cyan-900/50 whitespace-nowrap">
                                     {social.label}
-                                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-black/90 rotate-45 border-l border-t border-neutral-700/50"></div>
+                                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-black/95 rotate-45 border-l border-t border-cyan-900/50"></div>
                                 </div>
                             </div>
                         ))}
@@ -192,57 +127,17 @@ const Navbar = () => {
                 </div>
             </nav>
 
-            {/* Mobile navbar with scroll behavior */}
-            <div className={`sm:hidden fixed bottom-6 inset-x-0 mx-auto w-fit z-50 transition-all duration-500 ${
-                showNavbar ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'
-            }`}>
-                <div className="flex items-center gap-2 backdrop-blur-2xl bg-black/30 border border-neutral-600/30 rounded-2xl p-2 shadow-2xl hover:shadow-blue-500/20 transition-all duration-300">
-                    {/* Mobile gradient overlay */}
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10"></div>
-                    
+            {/* Mobile — bottom pill */}
+            <div className={`sm:hidden fixed bottom-6 inset-x-0 mx-auto w-fit z-50 transition-all duration-500 ${showNavbar ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0 pointer-events-none'}`}>
+                <div className="flex items-center gap-1 p-2 rounded-2xl shadow-2xl border border-cyan-900/30"
+                    style={{ background: 'rgba(0,0,0,0.92)', boxShadow: '0 0 0 1px rgba(0,212,255,0.08), 0 8px 40px rgba(0,0,0,0.9), 0 0 20px rgba(26,108,240,0.1)' }}
+                >
                     {navItems.map((item) => {
                         const isActive = currentPath === item.path;
-                        
-                        if (item.isDrawer) {
-                            return (
-                                <button
-                                    key={item.id}
-                                    onClick={() => {
-                                        playClick();
-                                        setIsDrawerOpen(true);
-                                    }}
-                                    className={`relative flex items-center justify-center w-12 h-12 rounded-xl transition-all duration-300 hover:scale-105 z-10 ${
-                                        isActive 
-                                            ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30" 
-                                            : "text-neutral-300 hover:text-white hover:bg-neutral-800/50"
-                                    }`}
-                                >
-                                    <div className={`transition-all duration-300 ${isActive ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]' : ''}`}>
-                                        {item.icon}
-                                    </div>
-                                </button>
-                            );
-                        }
-                        
-                        return (
-                            <Link
-                                key={item.id}
-                                to={item.path}
-                                onClick={() => {
-                                    playClick();
-                                    playTransition();
-                                }}
-                                className={`relative flex items-center justify-center w-12 h-12 rounded-xl transition-all duration-300 hover:scale-105 z-10 ${
-                                    isActive 
-                                        ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30" 
-                                        : "text-neutral-300 hover:text-white hover:bg-neutral-800/50"
-                                }`}
-                            >
-                                <div className={`transition-all duration-300 ${isActive ? 'drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]' : ''}`}>
-                                    {item.icon}
-                                </div>
-                            </Link>
-                        );
+                        const cls = `relative flex items-center justify-center w-12 h-12 rounded-xl transition-all duration-300 hover:scale-110 ${isActive ? "text-cyan-300" : "text-slate-400 hover:text-white"}`;
+                        const style = isActive ? { background: 'rgba(0,212,255,0.1)', boxShadow: '0 0 12px rgba(0,212,255,0.3)' } : {};
+                        if (item.isDrawer) return <button key={item.id} className={cls} style={style} onClick={() => { playClick(); setIsDrawerOpen(true); }}><div className={isActive ? 'drop-shadow-[0_0_6px_rgba(0,212,255,0.8)]' : ''}>{item.icon}</div></button>;
+                        return <Link key={item.id} to={item.path} className={cls} style={style} onClick={() => { playClick(); playTransition(); }}><div className={isActive ? 'drop-shadow-[0_0_6px_rgba(0,212,255,0.8)]' : ''}>{item.icon}</div></Link>;
                     })}
                 </div>
             </div>

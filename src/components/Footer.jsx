@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Copy, Github, Linkedin, ExternalLink, Twitter, Instagram } from 'lucide-react';
+import { Mail, Copy, Github, Linkedin, ExternalLink } from 'lucide-react';
 
 function Footer() {
     const [emailCopied, setEmailCopied] = useState(false);
@@ -11,86 +11,85 @@ function Footer() {
     };
 
     return (
-        <footer className="relative py-10 px-4">
+        <footer className="relative px-4 pb-8 pt-16">
+            <div className="absolute top-0 inset-x-0 h-px" style={{ background: 'linear-gradient(to right, transparent, rgba(0,212,255,0.1) 30%, rgba(26,108,240,0.15) 50%, rgba(0,212,255,0.1) 70%, transparent)' }} />
+
             <div className="relative z-10 max-w-6xl mx-auto">
                 <div className="flex flex-col lg:flex-row gap-12 mb-10">
-                    <div className="flex-shrink-0 lg:w-80">
-                        <div className="inline-flex items-center space-x-4 mb-6">
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 p-1">
-                                <div className="w-full h-full rounded-full bg-slate-800/90 flex items-center justify-center">
-                                    <span className="text-lg font-bold text-slate-100">AKS</span>
+                    {/* Brand */}
+                    <div className="flex-shrink-0 lg:w-72">
+                        <div className="inline-flex items-center gap-4 mb-5">
+                            <div className="w-11 h-11 rounded-full p-0.5" style={{ background: 'linear-gradient(135deg, rgba(0,212,255,0.6), rgba(26,108,240,0.8))' }}>
+                                <div className="w-full h-full rounded-full flex items-center justify-center" style={{ background: '#000' }}>
+                                    <span className="font-display font-bold text-sm text-white">AKS</span>
                                 </div>
                             </div>
-                            <div className="text-left">
-                                <p className="text-slate-200 font-semibold text-lg">Ankith Kumar Sara</p>
-                                <p className="text-slate-400 text-sm">Full Stack Developer</p>
+                            <div>
+                                <p className="font-display font-semibold text-white">Ankith Kumar Sara</p>
+                                <p className="font-mono text-xs" style={{ color: 'rgba(0,212,255,0.6)' }}>Full Stack Developer</p>
                             </div>
                         </div>
 
-                        <p className="text-slate-400 leading-relaxed text-sm mb-6 w-60">
-                            I'm Ankith - a full-stack developer, problem solver & tech enthusiast. Thanks for checking out my work!
+                        <p className="font-mono text-sm text-slate-500 leading-relaxed mb-5 max-w-xs" style={{ fontSize: '0.78rem' }}>
+                            Full-stack developer & AI builder based in Hyderabad. Building things that work and look good doing it.
                         </p>
 
-                        <div className="flex space-x-3">
-                            <a href="#" className="text-slate-400 hover:text-white transition-colors duration-300" aria-label="LinkedIn">
-                                <Linkedin className="w-5 h-5" />
-                            </a>
-                            <a href="#" className="text-slate-400 hover:text-white transition-colors duration-300" aria-label="GitHub">
-                                <Github className="w-5 h-5" />
-                            </a>
-                            <a href="#" className="text-slate-400 hover:text-white transition-colors duration-300" aria-label="Twitter">
-                                <Twitter className="w-5 h-5" />
-                            </a>
+                        <div className="flex gap-3">
+                            <a href="https://www.linkedin.com/in/ankith-kumar-sara-958ab026a" target="_blank" rel="noopener noreferrer"
+                                className="w-9 h-9 rounded-lg flex items-center justify-center text-slate-500 transition-all duration-300 hover:text-white"
+                                style={{ border: '1px solid rgba(255,255,255,0.06)' }}
+                                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(0,212,255,0.3)'; e.currentTarget.style.color = 'rgba(0,212,255,0.8)'; e.currentTarget.style.boxShadow = '0 0 10px rgba(0,212,255,0.15)'; }}
+                                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = ''; e.currentTarget.style.boxShadow = 'none'; }}
+                            ><Linkedin className="w-4 h-4" /></a>
+                            <a href="https://github.com/Ankith-sara" target="_blank" rel="noopener noreferrer"
+                                className="w-9 h-9 rounded-lg flex items-center justify-center text-slate-500 transition-all duration-300 hover:text-white"
+                                style={{ border: '1px solid rgba(255,255,255,0.06)' }}
+                                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(0,212,255,0.3)'; e.currentTarget.style.color = 'rgba(0,212,255,0.8)'; e.currentTarget.style.boxShadow = '0 0 10px rgba(0,212,255,0.15)'; }}
+                                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = ''; e.currentTarget.style.boxShadow = 'none'; }}
+                            ><Github className="w-4 h-4" /></a>
                         </div>
                     </div>
 
-                    <div className="flex-1 flex justify-between md:justify-start md:gap-x-36 lg:justify-end lg:gap-x-20">
+                    {/* Links */}
+                    <div className="flex-1 flex justify-between md:justify-start md:gap-24 lg:justify-end lg:gap-20">
                         <div>
-                            <span className="text-slate-200 mb-4 inline-block text-base font-medium">General</span>
-                            <ul className="flex flex-col gap-y-3 text-sm">
-                                <li><a href="#" className="text-slate-400 hover:text-blue-400 transition-colors duration-300 relative after:bg-blue-400 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-bottom-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100">Home</a></li>
-                                <li><a href="#about" className="text-slate-400 hover:text-blue-400 transition-colors duration-300 relative after:bg-blue-400 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-bottom-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100">About</a></li>
-                                <li><a href="#projects" className="text-slate-400 hover:text-blue-400 transition-colors duration-300 relative after:bg-blue-400 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-bottom-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100">Projects</a></li>
-                                <li><a href="#experience" className="text-slate-400 hover:text-blue-400 transition-colors duration-300 relative after:bg-blue-400 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-bottom-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100">Experience</a></li>
+                            <p className="font-display font-semibold text-sm text-white mb-5">Navigate</p>
+                            <ul className="flex flex-col gap-3 font-mono text-xs">
+                                {['/', '/about', '/projects'].map((path, i) => (
+                                    <li key={i}>
+                                        <a href={path} className="text-slate-500 transition-colors duration-200 hover:text-white">
+                                            {path === '/' ? 'Home' : path.slice(1).charAt(0).toUpperCase() + path.slice(2)}
+                                        </a>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
 
-                        {/* Services */}
                         <div>
-                            <span className="text-slate-200 mb-4 inline-block text-base font-medium">Services</span>
-                            <ul className="flex flex-col gap-y-3 text-sm">
-                                <li><span className="text-slate-400">Web Development</span></li>
-                                <li><span className="text-slate-400">Frontend Development</span></li>
-                                <li><span className="text-slate-400">Backend Development</span></li>
-                                <li><span className="text-slate-400">UI/UX Consulting</span></li>
+                            <p className="font-display font-semibold text-sm text-white mb-5">Services</p>
+                            <ul className="flex flex-col gap-3 font-mono text-xs text-slate-500">
+                                <li>Web Development</li>
+                                <li>Frontend Engineering</li>
+                                <li>Backend APIs</li>
+                                <li>AI Integration</li>
                             </ul>
                         </div>
 
-                        {/* Contact */}
                         <div>
-                            <span className="text-slate-200 mb-4 inline-block text-base font-medium">Contact</span>
-                            <ul className="flex flex-col gap-y-3 text-sm">
+                            <p className="font-display font-semibold text-sm text-white mb-5">Contact</p>
+                            <ul className="flex flex-col gap-3 font-mono text-xs">
                                 <li>
-                                    <button onClick={copyEmail} className="flex items-center space-x-2 text-slate-400 hover:text-blue-400 transition-colors duration-300 group">
-                                        <Mail className="w-4 h-4" />
-                                        <span className="text-xs">
-                                            {emailCopied ? "Copied!" : "Email"}
-                                        </span>
-                                        <Copy className="w-3 h-3 opacity-70 group-hover:opacity-100" />
+                                    <button onClick={copyEmail} className="flex items-center gap-2 text-slate-500 transition-colors duration-200 hover:text-white group">
+                                        <Mail className="w-3.5 h-3.5" />
+                                        {emailCopied ? <span style={{ color: 'rgba(0,212,255,0.8)' }}>Copied!</span> : 'Email'}
+                                        <Copy className="w-3 h-3 opacity-50 group-hover:opacity-100" />
                                     </button>
                                 </li>
+                                <li><span className="text-slate-600">Hyderabad, IN</span></li>
                                 <li>
-                                    <a href="#contact" className="text-slate-400 hover:text-blue-400 transition-colors duration-300 relative after:bg-blue-400 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-bottom-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100">
-                                        Get in Touch
-                                    </a>
-                                </li>
-                                <li>
-                                    <span className="text-slate-400 text-xs">Hyderabad, IN</span>
-                                </li>
-                                <li>
-                                    <div className="flex items-center space-x-2 mt-2">
-                                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                                        <span className="text-slate-400 text-xs">Available for work</span>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                                        <span className="text-green-500">Available</span>
                                     </div>
                                 </li>
                             </ul>
@@ -98,12 +97,11 @@ function Footer() {
                     </div>
                 </div>
 
-                {/* Footer Bottom */}
-                <div className="border-t border-slate-700/50 pt-6">
-                    <div className="text-center lg:text-left">
-                        <p className="text-slate-400 text-sm">
-                            © 2025 Ankith Kumar Sara
-                        </p>
+                {/* Bottom bar */}
+                <div className="border-t pt-6" style={{ borderColor: 'rgba(255,255,255,0.04)' }}>
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+                        <p className="font-mono text-xs text-slate-600">© 2025 Ankith Kumar Sara. All rights reserved.</p>
+                        <p className="font-mono text-xs text-slate-700">Built with React + Vite + Tailwind</p>
                     </div>
                 </div>
             </div>

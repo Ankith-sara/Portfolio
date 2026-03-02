@@ -4,17 +4,17 @@ import { motion } from 'framer-motion';
 import ContactDrawer from './ContactDrawer';
 import Resume from '../assets/Resume.pdf';
 import AKS from '../assets/images/AKS.png';
-import navChange from '../assets/sounds/navChange.wav';
-import clickSound from '../assets/sounds/mouseClick.wav';
 
 const Hero = () => {
-    const soundRef = useRef(new Audio(navChange));
-
-    const playSound = () => {
-        soundRef.current.currentTime = 0;
-        soundRef.current.play();
-    };
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+    // Subtle parallax on mouse move
+    useEffect(() => {
+        const handleMouse = (e) => setMousePos({ x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight });
+        window.addEventListener('mousemove', handleMouse);
+        return () => window.removeEventListener('mousemove', handleMouse);
+    }, []);
 
     const skills = {
         frontend: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
@@ -22,121 +22,87 @@ const Hero = () => {
         tools: ['Git', 'Docker', 'AWS', 'Vercel', 'Firebase'],
     };
 
-    useEffect(() => {
-        const audio = new Audio(clickSound);
-
-        const enableSound = () => {
-            audio.play().catch(err => console.log("Autoplay blocked:", err));
-            document.removeEventListener("click", enableSound); // remove after first click
-        };
-
-        document.addEventListener("click", enableSound);
-        return () => document.removeEventListener("click", enableSound);
-    }, []);
-
     return (
-        <div className="relative overflow-hidden text-white">
-            <div className="absolute inset-0 z-0">
-                {[...Array(50)].map((_, i) => (
-                    <div
-                        key={i}
-                        className="absolute w-1 h-1 bg-blue-600/30 rounded-full"
-                        style={{
-                            top: `${Math.random() * 100}%`,
-                            left: `${Math.random() * 100}%`,
-                            animation: `float ${8 + Math.random() * 8}s linear infinite`,
-                            animationDelay: `${Math.random() * 8}s`,
-                        }}
-                    />
-                ))}
+        <div className="relative overflow-hidden" style={{ background: 'transparent' }}>
+            <div className="absolute inset-0 pointer-events-none" style={{ transform: `translate(${(mousePos.x - 0.5) * -20}px, ${(mousePos.y - 0.5) * -15}px)`, transition: 'transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94)'}}>
+                <div style={{ position: 'absolute', top: '10%', left: '20%', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(26,108,240,0.12) 0%, transparent 70%)', filter: 'blur(60px)' }} />
+                <div style={{ position: 'absolute', top: '30%', right: '15%', width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%)', filter: 'blur(80px)' }} />
             </div>
 
             {/* Hero Section */}
             <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 text-center">
-                <h1 className="max-w-4xl text-3xl md:text-5xl lg:text-6xl font-extrabold text-slate-100 mb-8 leading-tight tracking-tight">
+                <motion.h1
+                    className="max-w-5xl text-3xl md:text-4xl lg:text-5xl font-display font-extrabold text-white mb-6 leading-[1.05] tracking-tight"
+                    initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
+                >
                     I help founders turn ideas
                     <br />
                     into seamless{' '}
-                    <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-500 to-blue-700 font-script drop-shadow-sm">
-                        digital experiences
-                    </span>
-                </h1>
+                    <span className="grad-text ">digital experiences</span>
+                </motion.h1>
+
+                <motion.p
+                    className="max-w-2xl text-slate-400 text-base md:text-lg font-mono mb-10 leading-relaxed"
+                    initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
+                >
+                    Full-stack developer & AI builder. From React frontends to production deliver ready models — I ship things that work.
+                </motion.p>
 
                 {/* Profile intro */}
-                <div className="flex flex-row gap-6 md:gap-1 items-center space-y-5 sm:space-y-0 sm:space-x-6 mb-12">
-                    {/* Animated Avatar */}
-                    <motion.div
-                        className="relative group"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ type: 'spring', stiffness: 300 }}
-                        whileHover={{ scale: 1.1 }}
-                        onMouseEnter={playSound}
-                    >
+                <motion.div
+                    className="flex flex-row gap-5 items-center mb-10"
+                    initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 200, delay: 0.4 }}
+                >
+                    <div className="relative">
                         <motion.div
-                            className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 p-1 shadow-2xl"
-                            animate={{
-                                boxShadow: [
-                                    '0 0 20px rgba(59, 130, 246, 0.3)',
-                                    '0 0 40px rgba(59, 130, 246, 0.6)',
-                                    '0 0 20px rgba(59, 130, 246, 0.3)',
-                                ],
-                            }}
-                            transition={{ duration: 2, repeat: Infinity }}
+                            className="w-20 h-20 rounded-full p-0.5"
+                            style={{ background: 'linear-gradient(135deg, rgba(0,212,255,0.6), rgba(26,108,240,0.8))' }}
+                            animate={{ boxShadow: ['0 0 20px rgba(0,212,255,0.2)', '0 0 40px rgba(0,212,255,0.5)', '0 0 20px rgba(0,212,255,0.2)'] }}
+                            transition={{ duration: 3, repeat: Infinity }}
                         >
-                            <div className="w-full h-full rounded-full bg-black flex items-center justify-center border border-blue-500/20">
-                                <span className="text-xl md:text-2xl font-bold text-white">AKS</span>
+                            <div className="w-full h-full rounded-full overflow-hidden" style={{ background: '#000' }}>
+                                <img src={AKS} alt="Ankith" className="w-full h-full object-cover" />
                             </div>
                         </motion.div>
-
-                        {/* Orbital ring */}
-                        <motion.div
-                            className="absolute inset-0 rounded-full border border-blue-500/30"
-                            style={{ scale: 1.5 }}
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                        />
-                    </motion.div>
-
-                    {/* Intro Text */}
-                    <div className="text-center sm:text-left">
-                        <p className="text-white text-xl font-semibold">Hello! I'm Ankith Sara</p>
-                        <p className="text-blue-300 text-lg">Full Stack Engineer</p>
+                        {/* Orbit ring */}
+                        <div className="absolute inset-0 rounded-full orbit" style={{ scale: 1.4, border: '1px solid rgba(0,212,255,0.15)' }} />
+                        <div className="absolute inset-0 rounded-full orbit-reverse" style={{ scale: 1.8, border: '1px dashed rgba(26,108,240,0.1)' }} />
                     </div>
-                </div>
+                    <div className="text-left">
+                        <p className="text-white text-lg font-display font-semibold">Ankith Kumar Sara</p>
+                        <p className="font-mono text-sm" style={{ color: 'rgba(0,212,255,0.7)' }}>Full Stack Engineer</p>
+                    </div>
+                </motion.div>
 
                 {/* Buttons */}
-                <div className="flex flex-col sm:flex-row items-center gap-4">
+                <motion.div
+                    className="flex flex-col sm:flex-row items-center gap-4"
+                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.6 }}
+                >
                     <button
-                        onClick={() => {
-                            playSound();
-                            setIsDrawerOpen(true);
-                        }}
-                        className="group relative inline-flex items-center justify-between overflow-hidden rounded-full border border-slate-700/50 bg-slate-800/20 px-5 py-3 font-medium opacity-90 backdrop-blur-sm transition-all hover:bg-transparent"
+                        onClick={() => setIsDrawerOpen(true)}
+                        className="group relative inline-flex items-center justify-between gap-3 overflow-hidden rounded-full px-6 py-3 font-mono text-sm font-medium text-white transition-all duration-300"
+                        style={{ background: 'rgba(26,108,240,0.9)', boxShadow: '0 0 20px rgba(26,108,240,0.4)' }}
+                        onMouseEnter={e => e.currentTarget.style.boxShadow = '0 0 30px rgba(26,108,240,0.7)'}
+                        onMouseLeave={e => e.currentTarget.style.boxShadow = '0 0 20px rgba(26,108,240,0.4)'}
                     >
-                        <span className="z-10 pr-3 text-slate-100 transition-colors duration-300 group-hover:text-slate-900">
-                            Let's Connect
-                        </span>
-                        <span className="absolute inset-0 translate-x-[45%] scale-0 rounded-full bg-blue-500 opacity-0 transition-all duration-300 ease-in-out group-hover:translate-x-0 group-hover:scale-100 group-hover:opacity-100"></span>
-                        <span className="z-10 flex items-center justify-center rounded-full bg-blue-500 p-2 transition-colors duration-300 group-hover:bg-transparent">
-                            <ArrowRight className="w-4 h-4 text-white transition-transform duration-300 group-hover:translate-x-1" />
-                        </span>
+                        Let's Connect
+                        <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </button>
 
-                    <a
-                        href={Resume}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={playSound}
-                        className="group flex items-center space-x-2 rounded-full border border-slate-700/30 bg-slate-800/10 px-5 py-3 font-semibold text-slate-300 transition-all hover:border-blue-500/50 hover:bg-slate-800/20 hover:text-white"
+                    <a href={Resume} target="_blank" rel="noopener noreferrer"
+                        className="group flex items-center gap-2 rounded-full border px-6 py-3 font-mono text-sm font-medium text-slate-300 transition-all duration-300 hover:text-white"
+                        style={{ borderColor: 'rgba(0,212,255,0.2)', background: 'rgba(0,0,0,0.5)' }}
+                        onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(0,212,255,0.5)'; e.currentTarget.style.boxShadow = '0 0 12px rgba(0,212,255,0.15)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(0,212,255,0.2)'; e.currentTarget.style.boxShadow = 'none'; }}
                     >
-                        <span>View Resume</span>
-                        <Download className="w-4 h-4 opacity-70 text-blue-400" />
+                        View Resume
+                        <Download className="w-4 h-4 opacity-70" style={{ color: 'rgba(0,212,255,0.8)' }} />
                     </a>
-                </div>
+                </motion.div>
             </div>
 
-            {/* Curved Gradient Divider */}
+            {/* divider with glow */}
             <div className="relative h-40 sm:h-48 lg:h-56 w-full">
                 <div
                     className="absolute bottom-0 left-1/2 z-0 h-[400px] w-[1200px] -translate-x-1/2 transform overflow-hidden"
@@ -151,113 +117,98 @@ const Hero = () => {
                         style={{ animation: 'glow-shift 8s ease-in-out infinite alternate' }}
                     />
                     <div
-                        className="absolute right-[-510px] bottom-[-679px] left-[-532px] h-[956px] rounded-[100%] bg-black"
+                        className="absolute right-[-510px] bottom-[-679px] left-[-532px] h-[946px] rounded-[100%] bg-black"
                         style={{ animation: 'semicircle-glow 10s ease-in-out infinite alternate' }}
                     />
                 </div>
             </div>
 
             {/* About Section */}
-            <section id="about" className="relative overflow-hidden min-h-screen  text-gray-300">
-                <div className="absolute top-0 right-0 w-72 h-72 sm:w-96 sm:h-96 bg-blue-600/5 rounded-full blur-3xl -z-10"></div>
-                <div className="absolute bottom-0 left-0 w-72 h-72 sm:w-96 sm:h-96 bg-slate-600/5 rounded-full blur-3xl -z-10"></div>
-                <div className="relative z-10 px-4 mb-20 text-center">
-                    <p className="mb-4 text-sm font-medium tracking-widest text-slate-400 uppercase">
-                        Know About Me
-                    </p>
-                    <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold text-slate-100 leading-tight">
-                        A little bit of{' '}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 animate-gradient-x font-script">
-                            me
-                        </span>
-                    </h2>
-                </div>
+            <section id="about" className="relative pb-28 px-4">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-16">
+                        <p className="font-mono text-xs tracking-widest mb-3" style={{ color: 'rgba(0,212,255,0.6)' }}>[ ABOUT ME ]</p>
+                        <h2 className="text-4xl md:text-5xl font-display font-bold text-white">
+                            A little bit of{' '}
+                            <span className="grad-text">me</span>
+                        </h2>
+                    </div>
 
-                <div className="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
-                    <div className="relative order-2 lg:order-1 flex-shrink-0">
-                        <div className="relative">
-                            <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-blue-500/20 to-slate-500/20 blur-lg -z-10"></div>
-                            <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500/30 to-slate-500/30 -z-10"></div>
-                            <div className="flex justify-center size-48 sm:size-80 rounded-full overflow-hidden border-4 border-white/10 shadow-2xl bg-slate-800/40">
-                                <img
-                                    src={AKS}
-                                    alt="Profile"
-                                    className="h-full w-full object-cover"
-                                />
-                            </div>
-                            <div className="absolute -top-6 -right-6 bg-gradient-to-br from-blue-600 to-blue-800 text-white px-4 py-2 rounded-full text-xs sm:text-sm font-medium shadow-lg animate-float-badge">
-                                Developer
-                            </div>
-                            <div className="absolute -bottom-4 -left-6 bg-gradient-to-br from-slate-600 to-slate-800 text-white px-4 py-2 rounded-full text-xs sm:text-sm font-medium shadow-lg animate-float-badge-delayed">
-                                CS Student
+                    <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
+                        {/* Photo */}
+                        <div className="relative flex-shrink-0 order-2 lg:order-1">
+                            <div className="relative">
+                                <div className="w-52 h-52 sm:w-72 sm:h-72 rounded-full overflow-hidden border"
+                                    style={{ borderColor: 'rgba(0,212,255,0.15)', boxShadow: '0 0 60px rgba(26,108,240,0.15), inset 0 0 30px rgba(0,0,0,0.5)' }}
+                                >
+                                    <img src={AKS} alt="Ankith" className="w-full h-full object-cover" />
+                                </div>
+                                {/* Floating labels */}
+                                <div className="absolute -top-4 -right-4 px-3 py-1.5 rounded-full font-mono text-xs font-medium"
+                                    style={{ background: 'rgba(26,108,240,0.9)', boxShadow: '0 0 12px rgba(26,108,240,0.5)', color: '#fff' }}>
+                                    Developer
+                                </div>
+                                <div className="absolute -bottom-2 -left-6 px-3 py-1.5 rounded-full font-mono text-xs font-medium"
+                                    style={{ background: 'rgba(6,6,18,0.95)', border: '1px solid rgba(0,212,255,0.2)', color: 'rgba(0,212,255,0.8)' }}>
+                                    CS Student
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="order-1 lg:order-2 max-w-xl text-center lg:text-left">
-                        <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 text-white">
-                            Hey! I'm{' '}
-                            <span className="relative">
-                                <span className="bg-gradient-to-r from-blue-500 to-slate-400 bg-clip-text text-transparent font-bold">
+
+                        {/* Text */}
+                        <div className="order-1 lg:order-2 max-w-xl text-center lg:text-left">
+                            <h3 className="text-3xl md:text-4xl font-display font-bold mb-6 text-white">
+                                Hey! I'm{' '}
+                                <span className="grad-text relative">
                                     ANKITH
+                                    <span className="absolute -bottom-1 left-0 w-full h-0.5" style={{ background: 'linear-gradient(to right, rgba(0,212,255,0.6), transparent)' }} />
                                 </span>
-                                <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-slate-400 rounded-full animate-pulse"></span>
-                            </span>
-                        </h3>
-                        <p className="text-base sm:text-lg leading-7 mb-5 text-gray-200">
-                            I'm Ankith Kumar Sara, a Full Stack developer and Computer Science student with
-                            expertise in modern web technologies. I specialize in building clean, responsive,
-                            and dynamic applications using React, Next.js, TypeScript, Node.js, PostgreSQL, and
-                            MongoDB.
-                        </p>
-                        <p className="text-base sm:text-lg leading-7 mb-6 text-gray-200">
-                            I'm always leveling up my skills and currently diving deeper into backend and
-                            DevOps. Whether it's full-time or freelance, I'm open to exciting opportunities where
-                            I can grow and build amazing products with incredible people.
-                        </p>
-                        <p className="text-blue-400 italic mb-8">I wake up each day eager to make a difference.</p>
-                    </div>
-                </div>
-                <div className="mt-16 px-4 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                    {Object.entries(skills).map(([category, techList]) => (
-                        <div
-                            key={category}
-                            className="group bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:scale-105 transition-all shadow-lg hover:shadow-blue-500/30"
-                        >
-                            <h3
-                                className={`text-lg sm:text-xl font-bold mb-4 ${category === 'frontend'
-                                    ? 'text-blue-400'
-                                    : category === 'backend'
-                                        ? 'text-green-400'
-                                        : 'text-purple-400'
-                                    }`}
-                            >
-                                {category.charAt(0).toUpperCase() + category.slice(1)}
                             </h3>
-                            <div className="flex flex-wrap gap-2">
-                                {techList.map((tech) => (
-                                    <span
-                                        key={tech}
-                                        className={`px-3 py-1 text-xs rounded-full border ${category === 'frontend'
-                                            ? 'bg-blue-500/10 border-blue-500/20 text-blue-300'
-                                            : category === 'backend'
-                                                ? 'bg-green-500/10 border-green-500/20 text-green-300'
-                                                : 'bg-purple-500/10 border-purple-500/20 text-purple-300'
-                                            }`}
-                                    >
-                                        {tech}
-                                    </span>
-                                ))}
-                            </div>
+                            <p className="text-slate-300 text-base leading-8 mb-5 font-mono" style={{ fontSize: '0.92rem' }}>
+                                I got hooked on building the moment I realized I could turn a blank editor into something real people use. What started with simple React apps evolved into full-stack systems, AI pipelines, and mobile apps.
+                            </p>
+                            <p className="text-slate-300 text-base leading-8 mb-6 font-mono" style={{ fontSize: '0.92rem' }}>
+                                Today I specialize in React, Next.js, Node.js, and applied AI — with a particular interest in the gap between prototype and production. Currently open to full-time roles and freelance projects.
+                            </p>
+                            <p className="font-mono text-sm italic" style={{ color: 'rgba(0,212,255,0.6)' }}>
+                                "The best way to learn is to build something you'd actually want to use."
+                            </p>
                         </div>
-                    ))}
+                    </div>
+
+                    {/* Skill pills */}
+                    <div className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        {Object.entries(skills).map(([category, techList]) => {
+                            const colors = { frontend: 'rgba(0,212,255,', backend: 'rgba(26,108,240,', tools: 'rgba(124,58,237,' };
+                            const c = colors[category];
+                            return (
+                                <div key={category} className="space-card rounded-2xl p-6 transition-all duration-300"
+                                    onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
+                                    onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+                                >
+                                    <h3 className="font-display font-bold text-lg mb-4 capitalize" style={{ color: `${c}0.9)` }}>
+                                        {category}
+                                    </h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {techList.map((tech) => (
+                                            <span key={tech} className="px-3 py-1 rounded-full font-mono text-xs"
+                                                style={{ background: `${c}0.06)`, border: `1px solid ${c}0.15)`, color: `${c}0.8)` }}>
+                                                {tech}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </section>
 
-            {/* Contact Drawer */}
             <ContactDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
 
-            <style>{`
-                @keyframes orbit {
+            <style>
+            {`
+            @keyframes orbit {
                      0% {
                         transform: translate(0, 0) scale(1);
                         opacity: 0.5;
@@ -347,7 +298,8 @@ const Hero = () => {
                 .font-script {
                     font-family: 'Brush Script MT', 'Bradley Hand', cursive;
                 }
-            `}</style>
+            `}
+            </style>
         </div>
     );
 };
