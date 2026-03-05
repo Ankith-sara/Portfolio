@@ -164,11 +164,6 @@ function AboutPage() {
                                     onMouseEnter={e => e.currentTarget.style.borderColor = `${exp.color}25`}
                                     onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(0,212,255,0.08)'}
                                 >
-                                    {/* Timeline dot */}
-                                    <div className="absolute left-2.5 w-3 h-3 rounded-full pulse-ring"
-                                        style={{ background: exp.color, boxShadow: `0 0 8px ${exp.color}`, marginTop: '4px' }}
-                                    />
-
                                     <div className="flex flex-col gap-1.5 mb-4">
                                         <time className="font-mono text-xs" style={{ color: exp.color }}>{exp.duration}</time>
                                         <h3 className="text-xl font-display font-bold text-white">{exp.company}</h3>
