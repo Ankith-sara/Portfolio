@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ContactDrawer from './ContactDrawer';
-import Resume from '../assets/Resume.pdf';
+import Resume from '../assets/Ankith_resume.pdf';
 import AKS from '../assets/images/AKS.png';
 
 const Hero = () => {
