@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaReact, FaNodeJs, FaGitAlt, FaGithub, FaAws, FaDocker } from "react-icons/fa";
-import { SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiExpress, SiPython, SiPostgresql, SiMongodb, SiPrisma, SiPnpm, SiVercel, SiExpo } from "react-icons/si";
+import { FaReact, FaNodeJs, FaGitAlt, FaGithub, FaAws, FaDocker, FaJenkins } from "react-icons/fa";
+import { SiNextdotjs, SiTypescript, SiTailwindcss, SiFramer, SiExpress, SiPython, SiPostgresql, SiMongodb, SiPrisma, SiPnpm, SiVercel, SiExpo, SiKubernetes, SiJest } from "react-icons/si";
 
 const Skills = () => {
     const [hoveredSkill, setHoveredSkill] = useState(null);
@@ -27,9 +27,11 @@ const Skills = () => {
             { name: "Git", icon: <FaGitAlt />, color: "#F97316", level: 90, label: "Expert" },
             { name: "GitHub", icon: <FaGithub />, color: "#e2e8f0", level: 88, label: "Advanced" },
             { name: "Docker", icon: <FaDocker />, color: "#3B82F6", level: 70, label: "Intermediate" },
+            { name: "Kubernetes", icon: <SiKubernetes />, color: "#326CE5", level: 65, label: "Intermediate" },
             { name: "AWS", icon: <FaAws />, color: "#F97316", level: 65, label: "Intermediate" },
             { name: "Vercel", icon: <SiVercel />, color: "#e2e8f0", level: 85, label: "Advanced" },
-            { name: "Expo", icon: <SiExpo />, color: "#e2e8f0", level: 75, label: "Intermediate" },
+            { name: "Jest", icon: <SiJest />, color: "#C21325", level: 72, label: "Intermediate" },
+            { name: "Jenkins", icon: <FaJenkins />, color: "#D24939", level: 60, label: "Intermediate" },
         ]
     };
 

@@ -17,16 +17,16 @@ function AboutPage() {
     const experiences = [
         {
             company: "Aharyas",
-            position: "Full Stack Engineer",
+            position: "Full Stack Developer Intern",
             duration: "Nov 2024 – Present",
             location: "Hyderabad, Telangana",
-            workType: "Remote",
+            workType: "Hybrid",
             color: "#00d4ff",
             achievements: [
-                "Developed the Aharya website — responsive UI showcasing the startup's artisan e-commerce offerings.",
-                "Built an e-commerce platform for artisans to display and sell handmade products.",
-                "Collaborated with the founding team to align platform with brand identity.",
-                "Implemented MongoDB for user data and product listings."
+                "Led development of an e-commerce platform using MERN + Razorpay, serving 300+ artisan sellers with 100+ monthly active users.",
+                "Reduced backend API errors by 20% through structured validation and logging, improving system reliability.",
+                "Translated ambiguous stakeholder requirements into modular, scalable features, shortening the requirements-to-ship cycle.",
+                "Optimized CI/CD pipelines on GitHub Actions — deployment time under 5 minutes with zero failures over 2 months."
             ],
             technologies: [
                 { name: "React JS", icon: <FaReact /> },
@@ -86,16 +86,16 @@ function AboutPage() {
                         </h1>
                         <div className="space-y-5 text-slate-400 font-mono leading-8" style={{ fontSize: '0.88rem' }}>
                             <p>
-                                CSE student at Woxsen University with a focus on <span className="text-white">web and app development</span>.
-                                I combine cutting-edge technology with practical problem-solving to build impactful digital products.
+                                CSE student at Woxsen University building <span className="text-white">AI-powered apps</span> and{' '}
+                                <span className="text-white">production-grade full-stack systems</span>. I own the entire dev lifecycle — from architecture to deployment.
                             </p>
                             <p>
-                                I've shipped <span className="text-white">demand forecasting systems</span> using SARIMA + LSTM for Indian retailers,
-                                <span className="text-white"> AI tour planners</span>, <span className="text-white">video generation platforms</span>, and more.
-                                My stack spans React, Tailwind, Firebase, Python, Node.js, and whatever the project needs.
+                                Architect of <span className="text-white">Aharyas</span> — a live marketplace serving 300+ artisan sellers with 100+ monthly active users, built on MERN + Razorpay. I've also shipped{' '}
+                                <span className="text-white">Authentiq</span> (AI text authenticity detector, 85%+ accuracy), a{' '}
+                                <span className="text-white">hybrid SARIMA + LSTM forecasting system</span>, an AI tour planner, and more.
                             </p>
                             <p>
-                                Beyond development, I thrive in innovation-driven environments. I aspire to lead impactful tech initiatives as both a builder and consultant. Always looking to collaborate on projects that challenge the norm.
+                                Beyond development, I thrive in innovation-driven environments. Aspiring to lead impactful tech initiatives as both a builder and consultant. Always looking to collaborate on projects that challenge the norm.
                             </p>
                         </div>
                     </motion.div>
