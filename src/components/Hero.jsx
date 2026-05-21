@@ -3,7 +3,7 @@ import { ArrowRight, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ContactDrawer from './ContactDrawer';
 import Resume from '../assets/Ankith_resume.pdf';
-import AKS from '../assets/images/AKS.png';
+import AKS from '../assets/images/AKS.jpg';
 
 const Hero = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -35,17 +35,17 @@ const Hero = () => {
                     className="max-w-5xl text-3xl md:text-4xl lg:text-5xl font-display font-extrabold text-white mb-6 leading-[1.05] tracking-tight"
                     initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
                 >
-                    Building AI-powered apps &amp;
+                    I help founders turn ideas
                     <br />
-                    production-grade{' '}
-                    <span className="grad-text">full-stack systems</span>
+                    into seamless{' '}
+                    <span className="grad-text ">digital experiences</span>
                 </motion.h1>
 
                 <motion.p
                     className="max-w-2xl text-slate-400 text-base md:text-lg font-mono mb-10 leading-relaxed"
                     initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
                 >
-                    Full-stack engineer & AI builder. Architect of Aharyas — a live marketplace for 300+ Indian artisans. I own the entire dev lifecycle and ship things that scale.
+                    Full-stack developer & AI builder. From React frontends to production deliver ready models — I ship things that work.
                 </motion.p>
 
                 {/* Profile intro */}
@@ -165,10 +165,10 @@ const Hero = () => {
                                 </span>
                             </h3>
                             <p className="text-slate-300 text-base leading-8 mb-5 font-mono" style={{ fontSize: '0.92rem' }}>
-                                Hooked on building the moment I realized I could turn a blank editor into something real people use. What started with simple React apps evolved into full-stack systems, AI pipelines, and live production platforms.
+                                I got hooked on building the moment I realized I could turn a blank editor into something real people use. What started with simple React apps evolved into full-stack systems, AI pipelines, and mobile apps.
                             </p>
                             <p className="text-slate-300 text-base leading-8 mb-6 font-mono" style={{ fontSize: '0.92rem' }}>
-                                Today I specialize in React, Next.js, Node.js, and applied AI — with a focus on the gap between prototype and production. I led Aharyas from scratch to 300+ artisan sellers with zero deployment failures across 2 months of CI/CD.
+                                Today I specialize in React, Next.js, Node.js, and applied AI — with a particular interest in the gap between prototype and production. Currently open to full-time roles and freelance projects.
                             </p>
                             <p className="font-mono text-sm italic" style={{ color: 'rgba(0,212,255,0.6)' }}>
                                 "The best way to learn is to build something you'd actually want to use."
