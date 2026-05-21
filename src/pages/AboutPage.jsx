@@ -37,7 +37,7 @@ function AboutPage() {
         {
             company: "INVEZORO",
             position: "Lead Web Developer",
-            duration: "May 2025 – Present",
+            duration: "May 2025 – Jul 2025",
             location: "Hyderabad, Telangana",
             workType: "Remote",
             color: "#1a6cf0",
