@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useSpring, useMotionValue } from 'framer-motion';
+import { motion, useSpring, useMotionValue, useScroll, useTransform } from 'framer-motion';
 import {
-  ArrowRight, MapPin, Compass, Cpu, Rocket,
-  Monitor, Server, Database, Brain,
-  ExternalLink, Zap
+  ArrowRight, MapPin, Compass, Cpu, Rocket, Monitor,
+  Server, Database, Brain, ExternalLink, Zap
 } from 'lucide-react';
 import SoundProvider, { useSound } from './context/SoundContext';
 import Navbar from './components/Navbar';
@@ -165,8 +164,8 @@ const Hero = () => {
   };
 
   return (
-    <div id="home" className="relative min-h-[90vh] flex flex-col items-center justify-center px-4 overflow-hidden pt-20">
-      <div className="relative z-10 text-center max-w-4xl space-y-8">
+    <div id="home" className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden pt-20">
+      <div className="relative z-10 text-center max-w-4xl space-y-10">
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -195,7 +194,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-neutral-400 font-mono text-xs md:text-sm max-w-xl mx-auto leading-relaxed"
+          className="text-neutral-100 font-mono text-xs md:text-sm max-w-xl mx-auto leading-relaxed"
         >
           Hi, I'm Ankith. A Full Stack Developer & AI Builder. I engineer responsive, performance-driven web products, transforming ideas into polished production assets.
         </motion.p>
@@ -204,7 +203,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.45 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6"
         >
           <button
             onMouseEnter={playHover}
@@ -235,7 +234,6 @@ const Hero = () => {
           </button>
         </motion.div>
       </div>
-      <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-neutral-900 to-transparent" />
       <ContactDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
     </div>
   );
@@ -266,7 +264,7 @@ const MeetAnkith = () => {
   const highlightTags = ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "Node.js", "Python", "MongoDB", "Firebase", "AWS"];
 
   return (
-    <section id="about" className="relative py-28 px-4 border-t border-neutral-900 bg-transparent overflow-hidden">
+    <section id="about" className="relative py-28 px-4 bg-transparent overflow-hidden">
       <motion.div 
         className="max-w-6xl mx-auto"
         initial={{ opacity: 0, y: 35 }}
@@ -377,7 +375,7 @@ const Process = () => {
   ];
 
   return (
-    <section id="process" className="relative py-28 px-4 border-t border-neutral-900 bg-transparent overflow-hidden">
+    <section id="process" className="relative py-28 px-4 bg-transparent overflow-hidden">
       <motion.div 
         className="max-w-6xl mx-auto"
         initial="hidden"
@@ -461,7 +459,7 @@ const Services = () => {
   const toolsList = ["REST APIs", "Docker", "Git", "GitHub Actions", "Vercel", "Convex", "Supabase", "Firebase", "Inngest", "Tailwind CSS", "TypeScript"];
 
   return (
-    <section id="services" className="relative py-28 border-t border-neutral-900 bg-transparent overflow-hidden">
+    <section id="services" className="relative py-28 bg-transparent overflow-hidden">
       <motion.div 
         className="max-w-6xl mx-auto px-4"
         initial="hidden"
@@ -694,7 +692,7 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="relative z-10 px-4 py-28 text-white border-t border-neutral-900 bg-transparent select-none overflow-hidden">
+    <section id="projects" className="relative z-10 px-4 py-28 text-white bg-transparent select-none overflow-hidden">
       <motion.div 
         className="max-w-6xl mx-auto"
         initial="hidden"
@@ -785,12 +783,27 @@ const Projects = () => {
   );
 };
 
-// CTA SECTION
+// CTA SECTION — with Atlantic-style "Let's Talk" blur-in reveal
+// + radiating lines that zoom OUT from center (start tiny/scaled-in, grow outward) on scroll into view
 const CTA = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { playHover, playClick } = useSound();
   const buttonRef = useRef(null);
+  const sectionRef = useRef(null);
+
+  // Smooth scroll-driven spring zoom for CTA lines coming out from the center
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "center center"]
+  });
+
+  // Map progress [0, 0.45] so the lines completely open up when CTA is 40%-50% visible in the viewport
+  const ctaScale = useTransform(scrollYProgress, [0, 0.45], [0.12, 1.0]);
+  const ctaOpacity = useTransform(scrollYProgress, [0, 0.45], [0.0, 0.65]);
+
+  const smoothScale = useSpring(ctaScale, { damping: 28, stiffness: 100 });
+  const smoothOpacity = useSpring(ctaOpacity, { damping: 28, stiffness: 100 });
 
   const handleMouseMove = (e) => {
     const rect = buttonRef.current.getBoundingClientRect();
@@ -800,13 +813,55 @@ const CTA = () => {
   };
 
   return (
-    <div className="relative overflow-hidden py-32 px-4 border-t border-neutral-900 bg-transparent">
-      <motion.div 
+    <div ref={sectionRef} className="relative overflow-hidden py-32 px-4 bg-transparent">
+      {/* Sticky radial burst — lines zoom OUT from center on scroll into view */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <motion.svg
+            viewBox="0 0 1440 900"
+            className="w-[120%] h-[120%] max-w-none"
+            preserveAspectRatio="xMidYMid slice"
+            aria-hidden="true"
+            style={{
+              scale: smoothScale,
+              opacity: smoothOpacity,
+              transformOrigin: '50% 50%'
+            }}
+          >
+            <g>
+              <g style={{ transformBox: 'view-box', transformOrigin: '50% 50%', transform: 'rotate(360deg)' }}>
+                <path
+                  d="M-162 774.783L725.114 421.023M725.114 421.023L2118.81 -14.0555M725.114 421.023L1004.79 -169M725.114 421.023L-162 215.625M725.114 421.023L281.557 1421.21M725.114 421.023L981.167 1495.55M725.114 421.023L1484.71 1379.15M725.114 421.023L2334.08 1222.6"
+                  stroke="rgba(255, 255, 255, 0.22)"
+                  strokeWidth="12"
+                />
+              </g>
+              <circle cx="719.5" cy="450" r="450" fill="url(#paint0_radial)" />
+            </g>
+            <defs>
+              <radialGradient
+                id="paint0_radial"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="translate(719.5 376.286) rotate(90) scale(388.214)"
+              >
+                <stop offset="0.58" stopColor="#040404" />
+                <stop offset="1" stopColor="#040404" stopOpacity="0" />
+              </radialGradient>
+            </defs>
+          </motion.svg>
+        </div>
+      </div>
+
+      {/* "Let's Talk" style blur-in reveal: opacity 0 + blur(20px) -> opacity 1 + blur(0) */}
+      <motion.div
         className="relative z-10 flex flex-col items-center justify-center text-center max-w-4xl mx-auto"
-        initial={{ opacity: 0, y: 35 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        initial={{ opacity: 0, filter: 'blur(20px)' }}
+        whileInView={{ opacity: 1, filter: 'blur(0px)' }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
       >
         <p className="font-mono text-xs tracking-widest mb-6 text-neutral-500 uppercase">[ Ready to Collaborate ]</p>
         <h2 className="text-4xl md:text-6xl font-display font-extrabold text-white mb-6 leading-[1.1] tracking-tight">
@@ -854,13 +909,11 @@ const CTA = () => {
   );
 };
 
-// FOOTER — imported from ./components/Footer
-
 // MAIN APP
 function App() {
   return (
     <SoundProvider>
-      <div className="min-h-screen relative overflow-hidden" style={{ background: '#040404', cursor: 'none' }}>
+      <div className="min-h-screen relative" style={{ background: '#040404', cursor: 'none' }}>
         <BackgroundCanvas />
         <LiquidCursor />
         <Navbar />
@@ -877,5 +930,5 @@ function App() {
     </SoundProvider>
   );
 }
-
+ 
 export default App;
